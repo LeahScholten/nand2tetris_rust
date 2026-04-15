@@ -268,7 +268,8 @@ mod tests {
         ));
     }
 
-    fn dmux_8_way_test() {
+    #[test]
+    const fn dmux_8_way_test() {
         assert!(matches!(
             Bit::Low.dmux_8_way([Bit::Low, Bit::Low, Bit::Low]),
             [
