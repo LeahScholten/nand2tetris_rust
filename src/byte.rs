@@ -1,4 +1,4 @@
-use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not};
+use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Index, Not};
 
 use crate::bit::Bit;
 
@@ -62,6 +62,14 @@ impl Byte {
         let [[a, b, c, d], [e, f, g, h]] = [abcd.dmux_4_way(sel), efgh.dmux_4_way(sel)];
         [a, b, c, d, e, f, g, h]
     }
+
+    pub const fn get(self, bit_index: usize) -> Option<Bit> {
+        if bit_index < self.0.len() {
+            Some(self.0[bit_index])
+        } else {
+            None
+        }
+    }
 }
 
 impl BitAnd for Byte {
@@ -111,5 +119,13 @@ impl Not for Byte {
 
     fn not(self) -> Self::Output {
         self.not()
+    }
+}
+
+impl Index<usize> for Byte {
+    type Output = Bit;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        self.0.index(index)
     }
 }
